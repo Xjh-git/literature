@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wkd.examples.dao.BookDAO">
+
+    <select id="queryAllBook" resultType="cn.wkd.examples.domain.Book">
+        select bk_ISBN ,
+            bk_name ,
+            bk_author,
+            bk_picuri,
+            bk_press ,
+            bk_detail ,
+            bk_price
+         from book;
+  </select>
+
+    <insert id="addBook" parameterType="cn.wkd.examples.domain.Book">
+        insert into book(
+            bk_ISBN ,
+            bk_name ,
+            bk_author,
+            bk_picuri,
+            bk_press ,
+            bk_detail ,
+            bk_price
+        )values (
+            #{bk_ISBN},
+            #{bk_name},
+            #{bk_author},
+            #{bk_picuri},
+            #{bk_press},
+            #{bk_detail},
+            #{bk_price}
+        )
+    </insert>
+
+    <select id="queryBookByParams" parameterType="map" resultType="cn.wkd.examples.domain.Book">
+        select bk_ISBN ,
+        bk_name ,
+        bk_author,
+        bk_picuri,
+        bk_press ,
+        bk_detail ,
+        bk_price
+        from book
+        <where>
+            <if test="isbn!=null and isbn!=''">
+                and bk_ISBN = #{isbn}
+            </if>
+            <if test="name!=null and name!=''">
+                and bk_name = #{name}
+            </if>
+            <if test="author!=null and author!=''">
+                and bk_author = #{author}
+            </if>
+            <if test="pic_uri!=null and pic_uri!=''">
+                and bk_picuri = #{pic_uri}
+            </if>
+            <if test="press!=null and press!=''">
+                and bk_press = #{press}
+            </if>
+            <if test="detail!=null and detail!=''">
+                and bk_detail = #{detail}
+            </if>
+            <if test="price!=null">
+                and bk_price = #{price}
+            </if>
+        </where>
+    </select>
+
+    <update id="editBook" parameterType="cn.wkd.examples.domain.Book">
+        update book set  bk_name = #{bk_name},
+            bk_author = #{bk_author},
+            bk_picuri = #{bk_picuri},
+            bk_press = #{bk_press},
+            bk_detail = #{bk_detail},
+            bk_price = #{bk_price}
+          where bk_ISBN = #{bk_ISBN}
+    </update>
+
+    <delete id="deleteBook" parameterType="String">
+        delete from book where bk_ISBN = #{isbn};
+    </delete>
+    <select id="queryBookLimit" parameterType="int" resultType="cn.wkd.examples.domain.Book">
+        select bk_ISBN ,
+            bk_name ,
+            bk_author,
+            bk_picuri,
+            bk_press ,
+            bk_detail ,
+            bk_price
+         from book
+         limit #{limit};
+    </select>
+    <select id="queryBookByPriceInterval" parameterType="map" resultType="cn.wkd.examples.domain.Book">
+          select bk_ISBN ,
+            bk_name ,
+            bk_author,
+            bk_picuri,
+            bk_press ,
+            bk_detail ,
+            bk_price
+         from book
+         where bk_price between #{start} and #{end};
+    </select>
+</mapper>

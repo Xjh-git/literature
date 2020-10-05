@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wkd.examples.dao.OrderDAO">
+  <insert id="addOrder" parameterType="cn.wkd.examples.domain.Order">
+      insert into ordertb(
+            order_num ,
+            order_totalprice ,
+            bk_ISBN ,
+            uid
+      )values (
+            #{order_num},
+            #{order_totalprice},
+            #{bk_ISBN},
+            #{uid}
+      )
+  </insert>
+    <select id="queryOrderByUid" parameterType="int" resultType="cn.wkd.examples.domain.Order">
+        select order_id,
+            order_num ,
+            order_totalprice ,
+            bk_ISBN ,
+            uid
+        from ordertb
+        where uid = #{uid}
+    </select>
+</mapper>

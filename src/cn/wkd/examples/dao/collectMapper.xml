@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wkd.examples.dao.CollectDao">
+    <select id="deleteCollectByUid" parameterType="int" resultType="cn.wkd.examples.domain.Collect">
+        delete from collect where uid = #{uid};
+    </select>
+
+    <select id="deleteCollectByCollectId" parameterType="int" resultType="cn.wkd.examples.domain.Collect">
+        delete from collect where collect_id = #{collect_id};
+    </select>
+    <select id="getBookByCollectId" parameterType="int" resultType="cn.wkd.examples.domain.Book">
+        select * from book where bk_ISBN=(select bk_ISBN from collect where collect_id=#{collect_id});
+    </select>
+
+    <select id="getBooksByUid" parameterType="int" resultType="cn.wkd.examples.domain.Book">
+        select * from book where bk_ISBN in (select bk_ISBN from collect where uid = #{uid});
+    </select>
+
+    <select id="insertCollect">
+        insert into collect(bk_ISBN,uid) values(#{param1},#{param2});
+    </select>
+
+    <delete id="deleteCollect" parameterType="map">
+        delete from collect where bk_ISBN =#{bk_ISBN} and  uid = #{uid};
+    </delete>
+</mapper>

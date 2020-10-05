@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wkd.examples.dao.CartDAO">
+    <insert id="addCart" parameterType="cn.wkd.examples.domain.Cart">
+        insert into cart(
+            cart_num ,
+            bk_ISBN ,
+            uid
+        )values (
+            #{cart_num},
+            #{bk_ISBN},
+            #{uid}
+        );
+    </insert>
+
+    <select id="queryCartByParam" parameterType="map" resultType="cn.wkd.examples.domain.Cart">
+        select cart_id,
+        cart_num ,
+        bk_ISBN ,
+        uid
+        from cart
+        <where>
+            <if test="cart_id!=null">
+                and cart_id = #{cart_id}
+            </if>
+            <if test="cart_num!=null">
+                and cart_num = #{cart_num}
+            </if>
+            <if test="bk_ISBN!=null and bk_ISBN!=''">
+                and bk_ISBN = #{bk_ISBN}
+            </if>
+            <if test="uid!=null">
+                and uid = #{uid}
+            </if>
+        </where>
+    </select>
+    <update id="editCart" parameterType="cn.wkd.examples.domain.Cart">
+        update cart set
+            cart_num = #{cart_num}
+        where cart_id = #{cart_id};
+    </update>
+    <delete id="deleteCart" parameterType="map">
+        delete from cart
+        where cart_id = #{cart_id};
+    </delete>
+    <delete id="clearCart" parameterType="int">
+        delete from cart
+        where uid = #{uid};
+    </delete>
+</mapper>
